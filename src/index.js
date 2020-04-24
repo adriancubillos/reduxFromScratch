@@ -17,4 +17,4 @@ store.dispatch(actions.bugResolved({ id: 1 }));
 
 // // unsubscribe();
 
-// store.dispatch(bugRemoved(1));
+store.dispatch(actions.bugRemoved({ id: 2 }));
