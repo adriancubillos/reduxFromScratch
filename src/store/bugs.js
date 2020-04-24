@@ -7,20 +7,20 @@ const slice = createSlice({
   name: 'bugs',
   initialState,
   reducers: {
-    bugAdded: (state, action) => {
-      state.push({
+    bugAdded: (bugs, action) => {
+      bugs.push({
         id: ++lastId,
         description: action.payload.description + '-' + lastId,
         resolved: false
       });
     },
-    bugRemoved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state.splice(index, 1);
+    bugRemoved: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs.splice(index, 1);
     },
-    bugResolved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state[index].resolved = true;
+    bugResolved: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs[index].resolved = true;
     }
   }
 });
