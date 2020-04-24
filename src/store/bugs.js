@@ -1,41 +1,31 @@
-// Action types
-const BUG_ADDED = 'BUG_ADDED';
-const BUG_REMOVED = 'BUG_REMOVED';
-const BUG_RESOLVED = 'BUG_RESOLVED';
+import { createAction } from '@reduxjs/toolkit';
 
 // Action creators
 // No return but using parenthesis to return an object
-export const bugAdded = (description) => ({
+export const bugAdded = createAction('bugAdded');
+// The code to define the payload is not longer needed.
+// the payload will be passed as a parameter to this "bugAdded" action creator
+/*
+(description) => ({
   type: BUG_ADDED,
   payload: {
     description: description
   }
 });
+*/
 
-// wit return to compare with previous function
-// Behave the same
-export const bugRemoved = (id) => {
-  return {
-    type: BUG_REMOVED,
-    payload: {
-      id: id
-    }
-  };
-};
-
-export const bugResolved = (id) => ({
-  type: BUG_RESOLVED,
-  payload: {
-    id // We can use just one the param as it is the same as the argument
-  }
-});
+//We do NOT need actionTypes lists anymore, the action type is now defined as teh first parameter here.
+// we can access the action type by using bugRemoved.type or bugRemoved.toString()
+export const bugRemoved = createAction('bugRemoved');
+export const bugResolved = createAction('bugResolved');
 
 //Reducer
 const initialState = [];
 let lastId = 0;
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case BUG_ADDED:
+    // As stated before we can access the action type by using actionCreator.type
+    case bugAdded.type:
       return [
         ...state,
         {
@@ -45,10 +35,10 @@ export default function reducer(state = initialState, action) {
         }
       ];
 
-    case BUG_REMOVED:
+    case bugRemoved.type:
       return state.filter((bug) => bug.id !== action.payload.id);
 
-    case BUG_RESOLVED:
+    case bugResolved.type:
       return state.map((bug) => (bug.id === action.payload.id ? { ...bug, resolved: true } : bug));
     default:
       return state;

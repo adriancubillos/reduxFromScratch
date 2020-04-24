@@ -8,12 +8,12 @@ const store = configureStore();
 const unsubscribe = store.subscribe(() => {
   console.log('store changed', store.getState());
 });
+// We pass the data now as an object that will be the payload attribute to our actionCreator functions
+store.dispatch(actions.bugAdded({ description: 'Bug' }));
+store.dispatch(actions.bugAdded({ description: 'Bug' }));
+store.dispatch(actions.bugAdded({ description: 'Bug' }));
 
-store.dispatch(actions.bugAdded('Bug'));
-store.dispatch(actions.bugAdded('Bug'));
-store.dispatch(actions.bugAdded('Bug'));
-
-store.dispatch(actions.bugResolved(1));
+store.dispatch(actions.bugResolved({ id: 1 }));
 
 // // unsubscribe();
 
