@@ -13,7 +13,7 @@ store.dispatch(actions.bugAdded('Bug'));
 store.dispatch(actions.bugAdded('Bug'));
 store.dispatch(actions.bugAdded('Bug'));
 
-store.dispatch(bugResolved(1));
+store.dispatch(actions.bugResolved(1));
 
 // // unsubscribe();
 

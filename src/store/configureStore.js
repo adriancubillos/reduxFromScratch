@@ -1,8 +1,16 @@
-import { createStore } from 'redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
 import reducer from './bugs';
 
-export default function configureStore() {
-  const store = createStore(reducer, devToolsEnhancer({ trace: true }));
-  return store;
+//can be renamed or use an anonymous function
+export default function () {
+  // instead of passing multiple arguments we pass a configuration object
+  // configureStore form reduxjs/toolkit will automatically set up the store
+  // to talk to redux devtools and allow us to dispatch asynchronous actions
+  return configureStore({
+    // reducer: reducer
+    // We can use shorthand syntax as name is same as value
+    reducer
+  });
+  // We can return directly no need for const
+  // return store;
 }
