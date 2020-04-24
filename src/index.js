@@ -9,8 +9,8 @@ store.dispatch(bugAdded('Bug'));
 store.dispatch(bugAdded('Bug'));
 store.dispatch(bugAdded('Bug'));
 
-store.dispatch(bugResolved(3));
+store.dispatch(bugResolved(1));
 
-// unsubscribe();
+// // unsubscribe();
 
-store.dispatch(bugRemoved(1));
+// store.dispatch(bugRemoved(1));
