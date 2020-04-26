@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { apiCallBegan } from './api';
 
 const initialState = {
   list: [],
@@ -42,9 +43,20 @@ export const {
   bugAdded,
   bugResolved,
   bugRemoved,
-  bugAssignedToUser
+  bugAssignedToUser,
+  bugsReceived
 } = slice.actions;
 export default slice.reducer;
+
+// Action Creators
+// To encapsulate specific details of actions.
+const url = '/bugs';
+
+export const loadBugs = () =>
+  apiCallBegan({
+    url,
+    onSuccess: bugsReceived.type
+  });
 
 // Selector function
 // instead of accessing the store and performing queries against it
