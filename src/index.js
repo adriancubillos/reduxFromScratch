@@ -39,6 +39,5 @@ console.log('equality', unresolvedBugs === unresolvedBugs2);
 store.dispatch(bugAssignedToUser({ id: 1, userId: 1 }));
 
 const bugsByUser = getBugByUser(1)(store.getState());
-console.log('###: ---------------------------');
+
 console.log('###: bugsByUser', bugsByUser);
-console.log('###: ---------------------------');
