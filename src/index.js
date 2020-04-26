@@ -6,38 +6,45 @@ import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 
 const store = configureStore();
-
-const unsubscribe = store.subscribe(() => {
-  console.log('store changed', store.getState());
+store.dispatch((dispatch, getState) => {
+  dispatch({
+    type: 'd',
+    payload: { message: 'An error occurred.' }
+  });
+  console.log('###: getState', getState());
 });
 
-store.dispatch(userAdded({ name: 'User' }));
-store.dispatch(userAdded({ name: 'User' }));
-store.dispatch(projectAdded({ name: 'Project' }));
+// const unsubscribe = store.subscribe(() => {
+//   console.log('store changed', store.getState());
+// });
 
-// We pass the data now as an object that will be the payload attribute to our actionCreator functions
-store.dispatch(bugAdded({ description: 'Bug' }));
-store.dispatch(bugAdded({ description: 'Bug' }));
-store.dispatch(bugAdded({ description: 'Bug' }));
+// store.dispatch(userAdded({ name: 'User' }));
+// store.dispatch(userAdded({ name: 'User' }));
+// store.dispatch(projectAdded({ name: 'Project' }));
 
-store.dispatch(bugResolved({ id: 1 }));
+// // We pass the data now as an object that will be the payload attribute to our actionCreator functions
+// store.dispatch(bugAdded({ description: 'Bug' }));
+// store.dispatch(bugAdded({ description: 'Bug' }));
+// store.dispatch(bugAdded({ description: 'Bug' }));
 
-// // unsubscribe();
+// store.dispatch(bugResolved({ id: 1 }));
 
-// store.dispatch(actions.bugRemoved({ id: 2 }));
+// // // unsubscribe();
 
-// const unresolvedBugs = store.getState().entities.bugs.filter((bug) => !bug.resolved);
-// Better to use a selector
-const unresolvedBugs = getUnresolvedBugs(store.getState());
-console.log(unresolvedBugs);
+// // store.dispatch(actions.bugRemoved({ id: 2 }));
 
-const unresolvedBugs2 = getUnresolvedBugs(store.getState());
-console.log(unresolvedBugs2);
+// // const unresolvedBugs = store.getState().entities.bugs.filter((bug) => !bug.resolved);
+// // Better to use a selector
+// const unresolvedBugs = getUnresolvedBugs(store.getState());
+// console.log(unresolvedBugs);
 
-console.log('equality', unresolvedBugs === unresolvedBugs2);
+// const unresolvedBugs2 = getUnresolvedBugs(store.getState());
+// console.log(unresolvedBugs2);
 
-store.dispatch(bugAssignedToUser({ id: 1, userId: 1 }));
+// console.log('equality', unresolvedBugs === unresolvedBugs2);
 
-const bugsByUser = getBugByUser(1)(store.getState());
+// store.dispatch(bugAssignedToUser({ id: 1, userId: 1 }));
 
-console.log('###: bugsByUser', bugsByUser);
+// const bugsByUser = getBugByUser(1)(store.getState());
+
+// console.log('###: bugsByUser', bugsByUser);

@@ -1,6 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './reducer';
 import logger from './middleware/logger';
+import toast from './middleware/toastify';
 
 //can be renamed or use an anonymous function
 export default function () {
@@ -11,7 +12,7 @@ export default function () {
     // reducer: reducer
     // We can use shorthand syntax as name is same as value
     reducer,
-    middleware: [logger({ destination: 'console' })]
+    middleware: [...getDefaultMiddleware(), logger({ destination: 'console' }), toast]
   });
   // We can return directly no need for const
   // return store;
