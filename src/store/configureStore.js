@@ -11,7 +11,7 @@ export default function () {
     // reducer: reducer
     // We can use shorthand syntax as name is same as value
     reducer,
-    middleware: [logger]
+    middleware: [logger({ destination: 'console' })]
   });
   // We can return directly no need for const
   // return store;
