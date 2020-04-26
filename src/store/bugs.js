@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
 const initialState = [];
 let lastId = 0;
@@ -32,4 +33,15 @@ export default slice.reducer;
 // instead of accessing the store and performing queries against it
 // this was form index.js ==> const unresolvedBugs = store.getState().entities.bugs.filter((bug) => !bug.resolved);
 // the reducer can provide some predefined selectors of data
-export const getUnresolvedBugs = (state) => state.entities.bugs.filter((bug) => !bug.resolved);
+// export const getUnresolvedBugs = (state) => state.entities.bugs.filter((bug) => !bug.resolved);
+
+// Better with Memoization if data has not changed
+// bugs => get unresolved bugs from cache
+export const getUnresolvedBugs = createSelector(
+  (state) => state.entities.bugs,
+  (bugs) =>
+    bugs.filter((bug) => {
+      console.log('function executed');
+      return !bug.resolved;
+    })
+);

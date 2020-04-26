@@ -27,3 +27,8 @@ store.dispatch(bugResolved({ id: 1 }));
 // Better to use a selector
 const unresolvedBugs = getUnresolvedBugs(store.getState());
 console.log(unresolvedBugs);
+
+const unresolvedBugs2 = getUnresolvedBugs(store.getState());
+console.log(unresolvedBugs2);
+
+console.log('equality', unresolvedBugs === unresolvedBugs2);
