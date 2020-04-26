@@ -12,6 +12,10 @@ const slice = createSlice({
   name: 'bugs',
   initialState,
   reducers: {
+    bugsReceived: (bugs, action) => {
+      bugs.list = action.payload;
+    },
+
     bugAdded: (bugs, action) => {
       bugs.list.push({
         id: ++lastId,
