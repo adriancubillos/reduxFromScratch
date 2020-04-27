@@ -99,23 +99,23 @@ export const loadBugs = () => (dispatch, getState) => {
 // Uncaught (in promise) Error:
 // Actions must be plain objects. Use custom middleware for async actions
 // Had to add the dispatch Currying !!!!!
-export const addBug = (bug) => async (dispatch) => {
-  const response = await axios.request({
-    baseURL: 'http://localhost:9001/api',
-    url: '/bugs',
-    method: 'post',
-    data: bug
-  });
-  dispatch(bugAdded(response.data));
-};
-
-// export const addBug = (bug) =>
-//   apiCallBegan({
-//     url,
+// export const addBug = (bug) => async (dispatch) => {
+//   const response = await axios.request({
+//     baseURL: 'http://localhost:9001/api',
+//     url: '/bugs',
 //     method: 'post',
-//     data: bug,
-//     onSuccess: bugAdded.type
+//     data: bug
 //   });
+//   dispatch(bugAdded(response.data));
+// };
+
+export const addBug = (bug) =>
+  apiCallBegan({
+    url,
+    method: 'post',
+    data: bug,
+    onSuccess: bugAdded.type
+  });
 
 export const resolveBug = (bugId) =>
   apiCallBegan({

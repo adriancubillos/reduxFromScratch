@@ -5,8 +5,7 @@ const store = configureStore();
 
 store.dispatch(
   addBug({
-    description:
-      'Changed implementation using axios directly instead of middleware'
+    description: 'Returned to normal implementation with middleware'
   })
 );
 
