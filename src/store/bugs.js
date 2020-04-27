@@ -25,6 +25,8 @@ const slice = createSlice({
       bugs.loading = false;
       bugs.lastFetch = Date.now();
     },
+    // command - event
+    // addBug - bugAdded
     bugAdded: (bugs, action) => {
       bugs.list.push(action.payload);
     },
@@ -32,13 +34,14 @@ const slice = createSlice({
       const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
       bugs.list.splice(index, 1);
     },
+    // resolveBug (command) - bugResolved (event)
     bugResolved: (bugs, action) => {
       const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
-      bugs[index].resolved = true;
+      bugs.list[index].resolved = action.payload.resolved;
     },
     bugAssignedToUser: (bugs, action) => {
       const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
-      bugs[index].userId = action.payload.userId;
+      bugs.list[index].userId = action.payload.userId;
     }
   }
 });
@@ -81,7 +84,6 @@ export const loadBugs = () => (dispatch, getState) => {
 
   if (diffInMinutes < 10) return;
 
-  console.log('###: loadBugs -> lastFetch', lastFetch);
   dispatch(
     apiCallBegan({
       url,
@@ -100,6 +102,22 @@ export const addBug = (bug) =>
     onSuccess: bugAdded.type
   });
 
+export const resolveBug = (bugId) =>
+  apiCallBegan({
+    url: `${url}/${bugId}`,
+    method: 'patch',
+    data: { resolved: true },
+    onSuccess: bugResolved.type
+  });
+
+export const assignBugToUser = (bugId, userId) =>
+  apiCallBegan({
+    url: `${url}/${bugId}`,
+    method: 'patch',
+    data: { userId },
+    onSuccess: bugAssignedToUser.type
+  });
+
 // SELECTORS
 // Selector function
 // instead of accessing the store and performing queries against it
@@ -113,7 +131,6 @@ export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
   (bugs) =>
     bugs.list.filter((bug) => {
-      console.log('function executed');
       return !bug.resolved;
     })
 );
