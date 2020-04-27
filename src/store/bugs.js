@@ -46,7 +46,7 @@ const slice = createSlice({
   }
 });
 // object destructuring to export the action creators
-const {
+export const {
   bugAdded,
   bugResolved,
   bugRemoved,
