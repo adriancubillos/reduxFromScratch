@@ -12,11 +12,18 @@ let lastId = 0;
 const slice = createSlice({
   name: 'bugs',
   initialState,
+  //REDUCERS
   reducers: {
+    bugsRequested: (bugs, action) => {
+      bugs.loading = true;
+    },
+    bugsRequestedFailed: (bugs, action) => {
+      bugs.loading = false;
+    },
     bugsReceived: (bugs, action) => {
       bugs.list = action.payload;
+      bugs.loading = false;
     },
-
     bugAdded: (bugs, action) => {
       bugs.list.push({
         id: ++lastId,
@@ -44,20 +51,25 @@ export const {
   bugResolved,
   bugRemoved,
   bugAssignedToUser,
-  bugsReceived
+  bugsReceived,
+  bugsRequested,
+  bugsRequestedFailed
 } = slice.actions;
 export default slice.reducer;
 
-// Action Creators
+// ACTION CREATORS
 // To encapsulate specific details of actions.
 const url = '/bugs';
 
 export const loadBugs = () =>
   apiCallBegan({
     url,
-    onSuccess: bugsReceived.type
+    onStart: bugsRequested.type,
+    onSuccess: bugsReceived.type,
+    onError: bugsRequestedFailed.type
   });
 
+// SELECTORS
 // Selector function
 // instead of accessing the store and performing queries against it
 // this was form index.js ==> const unresolvedBugs = store.getState().entities.bugs.list.filter((bug) => !bug.resolved);
