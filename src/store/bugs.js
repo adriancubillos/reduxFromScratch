@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { apiCallBegan } from './api';
+import moment from 'moment';
 
 const initialState = {
   list: [],
@@ -23,6 +24,7 @@ const slice = createSlice({
     bugsReceived: (bugs, action) => {
       bugs.list = action.payload;
       bugs.loading = false;
+      bugs.lastFetch = Date.now();
     },
     bugAdded: (bugs, action) => {
       bugs.list.push({
@@ -61,13 +63,39 @@ export default slice.reducer;
 // To encapsulate specific details of actions.
 const url = '/bugs';
 
-export const loadBugs = () =>
-  apiCallBegan({
-    url,
-    onStart: bugsRequested.type,
-    onSuccess: bugsReceived.type,
-    onError: bugsRequestedFailed.type
-  });
+// This function Returns a plain javascript object
+// () => {}
+// and we don't have access to the current state
+// if we want access to the current state we need to return a function
+// export const loadBugs = () =>
+//   apiCallBegan({
+//     url,
+//     onStart: bugsRequested.type,
+//     onSuccess: bugsReceived.type,
+//     onError: bugsRequestedFailed.type
+//   });
+
+// In order to get the state on this creator
+// we can leverage the use of thunk
+// that allow us to dispatch functions that can optionally receive 2 arguments
+// () => fn(dispatch, getState)
+export const loadBugs = () => (dispatch, getState) => {
+  const { lastFetch } = getState().entities.bugs;
+
+  const diffInMinutes = moment().diff(moment(lastFetch), 'minutes');
+
+  if (diffInMinutes < 10) return;
+
+  console.log('###: loadBugs -> lastFetch', lastFetch);
+  dispatch(
+    apiCallBegan({
+      url,
+      onStart: bugsRequested.type,
+      onSuccess: bugsReceived.type,
+      onError: bugsRequestedFailed.type
+    })
+  );
+};
 
 // SELECTORS
 // Selector function
